@@ -176,7 +176,7 @@ void readconf(void)
 			continue; 
 		n = strcspn(p, " \t"); 
 		if (n > IFNAMSIZ-1) 
-			complain(_("interface name too long at line %d"), line);  
+			complain(_("interface name too long at line %d"), linenum);  
 		memcpy(ch->ifname, p, n); 
 		ch->ifname[n] = 0; 
 		p += n; 
