@@ -77,7 +77,7 @@ BASEDIR ?= $(DESTDIR)
 NET_LIB_PATH = lib
 NET_LIB_NAME = net-tools
 
-PROGS	:= ifconfig hostname arp netstat route rarp slattach plipconfig nameif
+PROGS	:= ifconfig hostname arp netstat route rarp slattach plipconfig nameif ether-wake
 
 -include config.make
 ifeq ($(HAVE_IP_TOOLS),1)
@@ -197,6 +197,9 @@ nameif:	nameif.o
 hostname:	hostname.o
 		$(CC) $(LDFLAGS) -o hostname hostname.o $(DNLIB)
 
+ether-wake:	ether-wake.o
+		$(CC) $(LDFLAGS) -o ether-wake ether-wake.o $(DNLIB)
+
 route:		$(NET_LIB) route.o
 		$(CC) $(LDFLAGS) -o route route.o $(NLIB) $(RESLIB)
 
@@ -236,6 +239,7 @@ installbin:
 	install -m 0755 rarp       ${BASEDIR}/sbin
 	install -m 0755 route      ${BASEDIR}/sbin
 	install -m 0755 slattach   $(BASEDIR)/sbin
+	install -m 0755 ether-wake $(BASE_DIR)/sbin
 ifeq ($(HAVE_IP_TOOLS),1)
 	install -m 0755 ipmaddr    $(BASEDIR)/sbin
 	install -m 0755 iptunnel   $(BASEDIR)/sbin

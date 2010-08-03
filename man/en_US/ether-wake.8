@@ -1,0 +1,65 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH ETHER-WAKE 8 "December  17, 2002"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+ether-wake \- A tool to send magic WOL packages
+.SH SYNOPSIS
+.B ether-wake
+.RI [ options ] " MAC-Address"
+.SH DESCRIPTION
+This manual page documents briefly the
+.B ether-wake
+commands.
+.PP
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
+.\" respectively.
+\fBether-wake\fP is a program that generates and transmits Wake-On-LAN 
+(WOL) "Magic Packet", used for restarting machines that have been
+soft-powered-down (ACPI D3-warm state). It currently generates the standard
+AMD Magic Packet format, with an optional password appended.
+.SH OPTIONS
+\fBether-wake\fP needs a single dash (´-´) in front of the option.
+A summary of options is included below.
+.TP
+.B \-b
+Send wake-up packet to the broadcast address.
+.TP
+.B \-D
+Increase the Debug Level.
+.TP
+.B \-i ifname
+Use interface ifname instead of the default "eth0".
+.TP
+.B \-p passwd
+Append a four or six byte password to the packet. Only very few adapters
+need or support this. The password may be also specified in ethernet hex
+format (00:22:44:66:88:aa) or dotted decimal (192.168.1.1).
+.SH SEE ALSO
+.BR arp (8).
+.br
+.SH KNOWN BUGS
+On some systems dropping root capability allows the process to be
+dumped, traced or debugged.
+If someone traces this program, they get control of a raw socket.
+Linux handles this safely, but beware when porting this program.
+.SH AUTHOR
+The ether-wake program was written by Donald Becker at Scyld Computing
+Corporation.
+This manual page was formatted by Alain Schroeder <alain@mini.gt.owl.de>
+from the on-line manual in the program.
+
