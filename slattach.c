@@ -101,6 +101,45 @@ struct {
 #ifdef B115200
   { "115200",	B115200	},
 #endif
+#ifdef B230400
+  { "230400",	B230400	},
+#endif
+#ifdef B460800
+  { "460800",	B460800	},
+#endif
+#ifdef B500000
+  { "500000",	B500000	},
+#endif
+#ifdef B576000
+  { "576000",	B576000	},
+#endif
+#ifdef B921600
+  { "921600",	B921600	},
+#endif
+#ifdef B1000000
+  { "1000000",	B1000000	},
+#endif
+#ifdef B1152000
+  { "1152000",	B1152000	},
+#endif
+#ifdef B1500000
+  { "1500000",	B1500000	},
+#endif
+#ifdef B2000000
+  { "2000000",	B2000000	},
+#endif
+#ifdef B2500000
+  { "B2500000",	B2500000	},
+#endif
+#ifdef B3000000
+  { "B3000000",	B3000000	},
+#endif
+#ifdef B3500000
+  { "B3500000",	B3500000	},
+#endif
+#ifdef B4000000
+  { "B4000000",	B4000000	},
+#endif
   { NULL,	0	}
 };
 struct termios	tty_saved,		/* saved TTY device state	*/
@@ -116,6 +155,7 @@ int		opt_k = 0;		/* "keepalive" value		*/
 #endif
 int		opt_l = 0;		/* "lock it" flag		*/
 int		opt_L = 0;		/* 3-wire mode flag		*/
+int		opt_F = 0;		/* disable hardware control flow flag	*/
 int		opt_m = 0;		/* "set RAW mode" flag		*/
 int		opt_n = 0;		/* "set No Mesg" flag		*/
 #ifdef SIOCSOUTFILL
@@ -347,7 +387,7 @@ tty_set_raw(struct termios *tty)
   tty->c_cflag = (HUPCL | CREAD);		/* UART flags		*/
   if (opt_L) 
 	tty->c_cflag |= CLOCAL;
-  else
+  else if (opt_F)
 	tty->c_cflag |= CRTSCTS;
   tty->c_cflag |= speed;			/* restore speed	*/
   return(0);
@@ -559,7 +599,7 @@ sig_catch(int sig)
 static void
 usage(void)
 {
-  char *usage_msg = "Usage: slattach [-ehlLmnqv] "
+  char *usage_msg = "Usage: slattach [-ehlFLmnqv] "
 #ifdef SIOCSKEEPALIVE
 	  "[-k keepalive] "
 #endif
@@ -623,6 +663,10 @@ main(int argc, char *argv[])
 
 	case 'L':
 		opt_L = 1 - opt_L;
+		break;
+
+	case 'F':
+		opt_F = 1 - opt_F;
 		break;
 
 	case 'l':
