@@ -155,6 +155,7 @@ int		opt_k = 0;		/* "keepalive" value		*/
 #endif
 int		opt_l = 0;		/* "lock it" flag		*/
 int		opt_L = 0;		/* 3-wire mode flag		*/
+int		opt_F = 0;		/* disable hardware control flow flag	*/
 int		opt_m = 0;		/* "set RAW mode" flag		*/
 int		opt_n = 0;		/* "set No Mesg" flag		*/
 #ifdef SIOCSOUTFILL
@@ -386,7 +387,7 @@ tty_set_raw(struct termios *tty)
   tty->c_cflag = (HUPCL | CREAD);		/* UART flags		*/
   if (opt_L) 
 	tty->c_cflag |= CLOCAL;
-  else
+  else if (opt_F)
 	tty->c_cflag |= CRTSCTS;
   tty->c_cflag |= speed;			/* restore speed	*/
   return(0);
@@ -598,7 +599,7 @@ sig_catch(int sig)
 static void
 usage(void)
 {
-  char *usage_msg = "Usage: slattach [-ehlLmnqv] "
+  char *usage_msg = "Usage: slattach [-ehlFLmnqv] "
 #ifdef SIOCSKEEPALIVE
 	  "[-k keepalive] "
 #endif
@@ -662,6 +663,10 @@ main(int argc, char *argv[])
 
 	case 'L':
 		opt_L = 1 - opt_L;
+		break;
+
+	case 'F':
+		opt_F = 1 - opt_F;
 		break;
 
 	case 'l':
